@@ -1,0 +1,42 @@
+@page "/vendingMachine/createvendingmachine"
+@attribute [Authorize]
+@inject IAlertService AlertService
+@inject IVendingMachineService VendingMachineService
+@inject NavigationManager navManager
+@inject Blazorcrud.Client.Shared.PageHistoryState PageHistoryState
+
+<h1>Create Vending Machine</h1>
+<br/>
+
+<Form ButtonText="Create Vending Machine" vendingmachine="@vendingmachine" loading="@loading"
+      OnValidSubmit="@CreateVendingMachine" />
+
+@code {
+    bool loading = false;
+    
+    VendingMachine vendingmachine = new VendingMachine
+    {
+            VendingMachineName = ""
+    };
+    async Task CreateVendingMachine()
+    {
+        loading = true;
+        try
+        {
+            await VendingMachineService.AddVendingMachine(vendingmachine);
+            AlertService.Success("Vending Machine added successfully", keepAfterRouteChange: true);
+            if (PageHistoryState.CanGoBack()){
+                navManager.NavigateTo(PageHistoryState.GetGoBackPage());
+            }
+            else{
+                navManager.NavigateTo("/vendingmachine/1");
+            } 
+        }
+        catch (Exception ex)
+        {
+            AlertService.Error(ex.Message);
+            loading = false;
+            StateHasChanged();
+        }
+    }
+}

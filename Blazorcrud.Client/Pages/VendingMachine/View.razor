@@ -1,0 +1,44 @@
+@page "/vendingmachine/viewvendingmachine/{id}"
+@inject IVendingMachineService VendingMachineService
+@inject NavigationManager navManager
+@inject Blazorcrud.Client.Shared.PageHistoryState PageHistoryState
+
+<h1>View Vending Machine</h1>
+<br/>
+
+<table class="table col-md-6">
+    <tbody>
+        <tr>
+            <th scope="row">Id</th>
+            <td>@vendingMachine.VendingMachineId</td>
+        </tr>
+        <tr>
+            <th scope="row">First Name</th>
+            <td>@vendingMachine.VendingMachineName</td>
+        </tr>
+    </tbody>
+</table>
+
+<div class="form-group">
+    @if (PageHistoryState.CanGoBack()){
+        <NavLink href="@PageHistoryState.GetGoBackPage()" class="btn btn-link">Back</NavLink>
+    }
+    else{
+        <NavLink href="/vendingmachine/1" class="btn btn-link">Back</NavLink>
+    }
+</div>
+
+@code {
+    [Parameter]
+    public string Id { get; set; }
+
+    VendingMachine vendingMachine = new VendingMachine
+    {
+            VendingMachineName = "",
+    };
+    
+    protected async override Task OnParametersSetAsync()
+    {
+        vendingMachine = await VendingMachineService.GetVendingMachine(int.Parse(Id));
+    }
+}

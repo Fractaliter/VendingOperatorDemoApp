@@ -1,0 +1,51 @@
+@page "/vendingMachine/updatevendingmachine/{id}"
+@attribute [Authorize]
+@inject IAlertService AlertService
+@inject IVendingMachineService VendingMachineService
+@inject NavigationManager navManager
+@inject Blazorcrud.Client.Shared.PageHistoryState PageHistoryState
+
+<h1>Edit VendingMachine</h1>
+<br/>
+
+<Form ButtonText="Update VendingMachine" VendingMachine="@VendingMachine" loading="@loading"
+            OnValidSubmit="@UpdateVendingMachine" />
+
+@code {
+    bool loading = false;
+    
+    [Parameter]
+    public string Id { get; set; }
+
+    VendingMachine VendingMachine = new VendingMachine
+    {
+        VendingMachineName = ""
+    };
+    
+    protected async override Task OnParametersSetAsync()
+    {
+       VendingMachine = await VendingMachineService.GetVendingMachine(int.Parse(Id));
+    }
+
+    async Task UpdateVendingMachine()
+    {
+        loading = true;
+        try
+        {
+            await VendingMachineService.UpdateVendingMachine(VendingMachine);
+            AlertService.Success("Vending Machine updated successfully", keepAfterRouteChange: true);
+            if (PageHistoryState.CanGoBack()){
+                navManager.NavigateTo(PageHistoryState.GetGoBackPage());
+            }
+            else{
+                navManager.NavigateTo("/vendingmachine/1");
+            } 
+        }
+        catch (Exception ex)
+        {
+            AlertService.Error(ex.Message);
+            loading = false;
+            StateHasChanged();
+        }
+    }
+}

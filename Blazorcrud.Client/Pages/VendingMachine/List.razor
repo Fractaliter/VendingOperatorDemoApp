@@ -1,0 +1,127 @@
+@page "/vendingmachine/{Page}"
+@inject Services.IVendingMachineService VendingMachineService
+@inject Services.IUserService UserService
+@inject Microsoft.AspNetCore.Components.NavigationManager UriHelper
+@inject Blazorcrud.Client.Shared.PageHistoryState PageHistoryState
+
+<h1>Vending Machines</h1>
+<br/>
+
+<div class="row mb-3">
+    <div class="col-md-7">
+        @if(LoggedIn)
+        {
+            <NavLink href="/vendingmachine/createvendingmachine" class="btn btn-sm btn-success mb-2">Add Vending Machine</NavLink>
+        }
+    </div>
+    <div class="input-group col-md-5 text-md-right">
+        <input name="VendingMachineSearchInput" type="text" class="form-control" placeholder="Vending Machine Name" @bind="this.SearchTerm" @onkeyup="SearchBoxKeyPress" />
+        <div class="input-group-btn">
+            <button name="VendingMachineSearchButton" class="btn btn-default" @onclick="SearchClick">
+                <i class="oi oi-magnifying-glass" title="search" aria-hidden="true"></i>
+            </button>
+        </div>
+        <div class="input-group-btn">
+            <button name="VendingMachineSearchClear" class="btn btn-default" @onclick="ClearSearch">
+                <i class="oi oi-x" title="clear" aria-hidden="true"></i>
+            </button>
+        </div>
+    </div>
+</div>
+
+@if (vendingMachines == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th style="width:25%">Machine Name</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var vendingMachine in vendingMachines.Results)
+            {
+                <tr>
+                    <td>@vendingMachine.VendingMachineName</td>
+                    <td style="white-space: nowrap">
+                        <NavLink href="@($"/vendingmachine/viewvendingmachine/{vendingMachine.VendingMachineId}")" class="oi oi-eye text-primary mr-3 nounderline"></NavLink>
+                        @if (LoggedIn)
+                        {
+                            <NavLink href="@($"/vendingmachine/updatevendingmachine/{vendingMachine.VendingMachineId}")" class="oi oi-pencil text-warning mr-2 nounderline"></NavLink>
+                        }
+                    </td>
+                </tr> 
+            }
+        </tbody>
+    </table>
+    <Pager Result=@vendingMachines PageChanged=PagerPageChanged />
+}
+
+@code {
+    [Parameter]
+    public string Page { get; set;} = "1";
+    [Parameter]
+    public string SearchTerm { get; set; } = string.Empty;
+    protected PagedResult<VendingMachine> vendingMachines;
+    
+    public bool LoggedIn
+    {
+        get {return UserService.User != null;}
+    }
+    
+    protected override void OnInitialized()
+    {
+        PageHistoryState.AddPageToHistory(UriHelper.Uri);
+        base.OnInitialized();
+    }
+    
+    protected override async Task OnParametersSetAsync()
+    {
+        vendingMachines = await VendingMachineService.GetVendingMachines(null, Page);
+        PageHistoryState.AddPageToHistory(UriHelper.Uri);
+    }
+
+    protected async Task SearchBoxKeyPress(KeyboardEventArgs ev)
+    {
+        if (ev.Key == "Enter")
+        {
+            await SearchClick();
+        }
+    }
+
+    protected async Task SearchClick()
+    {
+        if (string.IsNullOrEmpty(SearchTerm))
+        {
+            vendingMachines = await VendingMachineService.GetVendingMachines(null, Page);
+            return;
+        }
+        vendingMachines = await VendingMachineService.GetVendingMachines(SearchTerm, Page);
+        StateHasChanged();
+    }
+
+    protected async Task ClearSearch()
+    {
+        SearchTerm = string.Empty;
+        vendingMachines = await VendingMachineService.GetVendingMachines(SearchTerm, Page);
+        PageHistoryState.AddPageToHistory(UriHelper.Uri);
+        StateHasChanged();
+    }
+
+    protected void PagerPageChanged(int page)
+    {
+        UriHelper.NavigateTo("/vendingmachine/" + page);
+        PageHistoryState.AddPageToHistory(UriHelper.Uri);
+    }
+
+    private async void DeleteVendindMachine(VendingMachine _vendingMachines)
+    {
+                var vendingMachine = _vendingMachines;
+                await VendingMachineService.DeleteVendingMachine(vendingMachine.VendingMachineId);
+        vendingMachines = await VendingMachineService.GetVendingMachines(null, Page);
+        StateHasChanged();
+    }
+}

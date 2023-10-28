@@ -1,0 +1,41 @@
+@inject Blazorcrud.Client.Shared.PageHistoryState PageHistoryState
+
+<EditForm Model="@vendingmachine" OnValidSubmit="@OnValidSubmit">
+    <FluentValidator TValidator="VendingMachineValidator" />
+    <div class="form-group">
+        <label>First Name :</label>
+        <div>
+            <InputText @bind-Value="@vendingmachine.VendingMachineName" class="form-control col-sm-3" />
+            <ValidationMessage For="@(() => vendingmachine.VendingMachineName)" />
+        </div>
+    </div>
+
+
+    <div class="form-group">
+        <button disabled="@loading" class="btn btn-primary">
+            @if (loading) 
+            {
+                <span class="spinner-border spinner-border-sm mr-1"></span>
+            }
+            @ButtonText
+        </button>
+        @if (PageHistoryState.CanGoBack()){
+            <NavLink href="@PageHistoryState.GetGoBackPage()" class="btn btn-link">Cancel</NavLink>
+        }
+        else{
+            <NavLink href="/vendingmachine/1" class="btn btn-link">Back</NavLink>
+        }
+    </div>
+
+</EditForm>
+
+@code {
+    [Parameter]
+    public VendingMachine vendingmachine { get; set; }
+    [Parameter]
+    public string ButtonText { get; set; } = "Save";
+    [Parameter]
+    public bool loading {get; set;} = false;
+    [Parameter]
+    public EventCallback OnValidSubmit { get; set; }
+}
