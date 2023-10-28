@@ -14,6 +14,8 @@ namespace Blazorcrud.Server.Models
         public DbSet<Address> Addresses => Set<Address>();
         public DbSet<Upload> Uploads => Set<Upload>();
         public DbSet<User> Users => Set<User>();
+        public DbSet<UserRole> UserRoles => Set<UserRole>();
+        public DbSet<Role> Roles => Set<Role>();
         public DbSet<VendingMachine> VendingMachines => Set<VendingMachine>();
     }
 }

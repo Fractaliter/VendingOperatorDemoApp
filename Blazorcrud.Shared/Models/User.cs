@@ -1,3 +1,4 @@
+
 using System.Text.Json.Serialization;
 
 namespace Blazorcrud.Shared.Models
@@ -13,5 +14,9 @@ namespace Blazorcrud.Shared.Models
         public bool IsDeleting {get; set;} = default!;
         [JsonIgnore]
         public string? PasswordHash {get; set;}
+        public bool IsDeleted { get; set;} = default!;
+        [JsonIgnore]
+        public string? TokenHash { get; set;}
+
     }
 }
