@@ -1,0 +1,51 @@
+@page "/product/updateproduct/{id}"
+@attribute [Authorize]
+@inject IAlertService AlertService
+@inject IProductService ProductService
+@inject NavigationManager navManager
+@inject VendingOperator.Client.Shared.PageHistoryState PageHistoryState
+
+<h1>Edit Product</h1>
+<br/>
+
+<Form ButtonText="Update Product" Product="@Product" loading="@loading"
+            OnValidSubmit="@UpdateProduct" />
+
+@code {
+    bool loading = false;
+    
+    [Parameter]
+    public string Id { get; set; }
+
+    Product Product = new Product
+    {
+        ProductName = ""
+    };
+    
+    protected async override Task OnParametersSetAsync()
+    {
+       Product = await ProductService.GetProduct(int.Parse(Id));
+    }
+
+    async Task UpdateProduct()
+    {
+        loading = true;
+        try
+        {
+            await ProductService.UpdateProduct(Product);
+            AlertService.Success("Product updated successfully", keepAfterRouteChange: true);
+            if (PageHistoryState.CanGoBack()){
+                navManager.NavigateTo(PageHistoryState.GetGoBackPage());
+            }
+            else{
+                navManager.NavigateTo("/product/1");
+            } 
+        }
+        catch (Exception ex)
+        {
+            AlertService.Error(ex.Message);
+            loading = false;
+            StateHasChanged();
+        }
+    }
+}

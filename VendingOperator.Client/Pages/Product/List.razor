@@ -1,0 +1,130 @@
+@page "/product/{Page}"
+@inject Services.IProductService ProductService
+@inject Services.IUserService UserService
+@inject Microsoft.AspNetCore.Components.NavigationManager UriHelper
+@inject VendingOperator.Client.Shared.PageHistoryState PageHistoryState
+
+<h1>Vending Machines</h1>
+<br/>
+
+<div class="row mb-3">
+    <div class="col-md-7">
+        @if(LoggedIn)
+        {
+            <NavLink href="/product/createproduct" class="btn btn-sm btn-success mb-2">Add Vending Machine</NavLink>
+        }
+    </div>
+    <div class="input-group col-md-5 text-md-right">
+        <input name="productSearchInput" type="text" class="form-control" placeholder="Vending Machine Name" @bind="this.SearchTerm" @onkeyup="SearchBoxKeyPress" />
+        <div class="input-group-btn">
+            <button name="productSearchButton" class="btn btn-default" @onclick="SearchClick">
+                <i class="oi oi-magnifying-glass" title="search" aria-hidden="true"></i>
+            </button>
+        </div>
+        <div class="input-group-btn">
+            <button name="productSearchClear" class="btn btn-default" @onclick="ClearSearch">
+                <i class="oi oi-x" title="clear" aria-hidden="true"></i>
+            </button>
+        </div>
+    </div>
+</div>
+
+@if (products == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th style="width:40%">Product Name</th>
+                <th style="width:40%">Description</th>
+                <th style="width:10%">StockQuantity</th>
+                <th style="width:10%">Price</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var product in products.Results)
+            {
+                <tr>
+                    <td>@product.ProductName</td>
+                    <td style="white-space: nowrap">
+                        <NavLink href="@($"/product/viewproduct/{product.ProductId}")" class="oi oi-eye text-primary mr-3 nounderline"></NavLink>
+                        @if (LoggedIn)
+                        {
+                            <NavLink href="@($"/product/updateproduct/{product.ProductId}")" class="oi oi-pencil text-warning mr-2 nounderline"></NavLink>
+                        }
+                    </td>
+                </tr> 
+            }
+        </tbody>
+    </table>
+    <Pager Result=@products PageChanged=PagerPageChanged />
+}
+
+@code {
+    [Parameter]
+    public string Page { get; set;} = "1";
+    [Parameter]
+    public string SearchTerm { get; set; } = string.Empty;
+    protected PagedResult<Product> products;
+    
+    public bool LoggedIn
+    {
+        get {return UserService.User != null;}
+    }
+    
+    protected override void OnInitialized()
+    {
+        PageHistoryState.AddPageToHistory(UriHelper.Uri);
+        base.OnInitialized();
+    }
+    
+    protected override async Task OnParametersSetAsync()
+    {
+        products = await ProductService.GetProducts(null, Page);
+        PageHistoryState.AddPageToHistory(UriHelper.Uri);
+    }
+
+    protected async Task SearchBoxKeyPress(KeyboardEventArgs ev)
+    {
+        if (ev.Key == "Enter")
+        {
+            await SearchClick();
+        }
+    }
+
+    protected async Task SearchClick()
+    {
+        if (string.IsNullOrEmpty(SearchTerm))
+        {
+            products = await ProductService.GetProducts(null, Page);
+            return;
+        }
+        products = await ProductService.GetProducts(SearchTerm, Page);
+        StateHasChanged();
+    }
+
+    protected async Task ClearSearch()
+    {
+        SearchTerm = string.Empty;
+        products = await ProductService.GetProducts(SearchTerm, Page);
+        PageHistoryState.AddPageToHistory(UriHelper.Uri);
+        StateHasChanged();
+    }
+
+    protected void PagerPageChanged(int page)
+    {
+        UriHelper.NavigateTo("/product/" + page);
+        PageHistoryState.AddPageToHistory(UriHelper.Uri);
+    }
+
+    private async void DeleteVendindMachine(Product _products)
+    {
+                var product = _products;
+        await ProductService.DeleteProduct(product.ProductId);
+        products = await ProductService.GetProducts(null, Page);
+        StateHasChanged();
+    }
+}

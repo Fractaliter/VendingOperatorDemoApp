@@ -1,0 +1,62 @@
+@page "/product/viewproduct/{id}"
+@inject IProductService ProductService
+@inject NavigationManager navManager
+@inject VendingOperator.Client.Shared.PageHistoryState PageHistoryState
+
+<h1>View Vending Machine</h1>
+<br/>
+
+<table class="table col-md-6">
+    <tbody>
+        <tr>
+            <th scope="row">Id</th>
+            <td>@Product.ProductId</td>
+        </tr>
+        <tr>
+            <th scope="row">Product Name</th>
+            <td>@Product.ProductName</td>
+        </tr>
+
+        <tr>
+            <th scope="row">Description</th>
+            <td>@Product.Description</td>
+        </tr>
+
+        <tr>
+            <th scope="row">Price</th>
+            <td>@Product.Price</td>
+        </tr>
+
+        <tr>
+            <th scope="row">StockQuantity</th>
+            <td>@Product.StockQuantity</td>
+        </tr>
+    </tbody>
+</table>
+
+<div class="form-group">
+    @if (PageHistoryState.CanGoBack()){
+        <NavLink href="@PageHistoryState.GetGoBackPage()" class="btn btn-link">Back</NavLink>
+    }
+    else{
+        <NavLink href="/Product/1" class="btn btn-link">Back</NavLink>
+    }
+</div>
+
+@code {
+    [Parameter]
+    public string Id { get; set; }
+
+    Product Product = new Product
+        {
+            ProductName = "",
+            Description = "",
+            Price = 0,
+            StockQuantity = 0
+    };
+    
+    protected async override Task OnParametersSetAsync()
+    {
+        Product = await ProductService.GetProduct(int.Parse(Id));
+    }
+}

@@ -1,0 +1,45 @@
+@page "/product/createproduct"
+@attribute [Authorize]
+@inject IAlertService AlertService
+@inject IProductService productService
+@inject NavigationManager navManager
+@inject VendingOperator.Client.Shared.PageHistoryState PageHistoryState
+
+<h1>Create Vending Machine</h1>
+<br/>
+
+<Form ButtonText="Create Product" product="@product" loading="@loading"
+      OnValidSubmit="@CreateProduct" />
+
+@code {
+    bool loading = false;
+
+    Product product = new Product
+        {
+            ProductName = "",
+            Description = "",
+            Price = 0,
+            StockQuantity = 0
+    };
+    async Task CreateProduct()
+    {
+        loading = true;
+        try
+        {
+            await productService.AddProduct(product);
+            AlertService.Success("Product added successfully", keepAfterRouteChange: true);
+            if (PageHistoryState.CanGoBack()){
+                navManager.NavigateTo(PageHistoryState.GetGoBackPage());
+            }
+            else{
+                navManager.NavigateTo("/product/1");
+            } 
+        }
+        catch (Exception ex)
+        {
+            AlertService.Error(ex.Message);
+            loading = false;
+            StateHasChanged();
+        }
+    }
+}

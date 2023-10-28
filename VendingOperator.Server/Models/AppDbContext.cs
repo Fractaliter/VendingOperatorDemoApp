@@ -10,6 +10,7 @@ namespace VendingOperator.Server.Models
 
         }
 
+        public DbSet<Product> Products => Set<Product>();
         public DbSet<Person> People => Set<Person>();
         public DbSet<Address> Addresses => Set<Address>();
         public DbSet<Upload> Uploads => Set<Upload>();
