@@ -23,7 +23,7 @@
 		<PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.25.1" />
 	</ItemGroup>
 	<ItemGroup>
-		<ProjectReference Include="..\Blazorcrud.Client\VendingOperator.Client.csproj" />
-		<ProjectReference Include="..\Blazorcrud.Shared\VendingOperator.Shared.csproj" />
+		<ProjectReference Include="..\VendingOperator.Client\VendingOperator.Client.csproj" />
+		<ProjectReference Include="..\VendingOperator.Shared\VendingOperator.Shared.csproj" />
 	</ItemGroup>
 </Project>
