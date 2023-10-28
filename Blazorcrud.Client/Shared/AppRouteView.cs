@@ -1,10 +1,10 @@
-using Blazorcrud.Client.Services;
+using VendingOperator.Client.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Rendering;
 using System.Net;
 
-namespace Blazorcrud.Client.Shared
+namespace VendingOperator.Client.Shared
 {
     public class AppRouteView : RouteView
     {

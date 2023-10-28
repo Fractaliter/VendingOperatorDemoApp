@@ -1,9 +1,9 @@
-﻿using Blazorcrud.Server.Authorization;
-using Blazorcrud.Server.Models;
-using Blazorcrud.Shared.Models;
+﻿using VendingOperator.Server.Authorization;
+using VendingOperator.Server.Models;
+using VendingOperator.Shared.Models;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Blazorcrud.Server.Controllers
+namespace VendingOperator.Server.Controllers
 {
     [Authorize]
     [ApiController]

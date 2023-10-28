@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Components;
 using System.Collections.Specialized;
 using System.Web;
 
-namespace Blazorcrud.Client.Shared
+namespace VendingOperator.Client.Shared
 {
     public static class ExtensionMethods
     {

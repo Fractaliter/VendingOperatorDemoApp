@@ -1,4 +1,4 @@
-namespace Blazorcrud.Server.Helpers;
+namespace VendingOperator.Server.Helpers;
 using System.Net;
 using System.Text.Json;
 

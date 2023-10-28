@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Blazorcrud.Shared.Models
+namespace VendingOperator.Shared.Models
 {
     public class Role
     {

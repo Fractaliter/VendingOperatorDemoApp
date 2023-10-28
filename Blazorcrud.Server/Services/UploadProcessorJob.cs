@@ -1,9 +1,9 @@
-using Blazorcrud.Server.Models;
-using Blazorcrud.Shared.Models;
+using VendingOperator.Server.Models;
+using VendingOperator.Shared.Models;
 using Quartz;
 using System.Text.Json;
 
-namespace Blazorcrud.Server.Services
+namespace VendingOperator.Server.Services
 {
     [DisallowConcurrentExecution]
     public class UploadProcessorJob : IJob

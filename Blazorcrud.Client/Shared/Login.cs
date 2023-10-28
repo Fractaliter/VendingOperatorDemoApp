@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace Blazorcrud.Client.Shared
+namespace VendingOperator.Client.Shared
 {
     public class Login
     {

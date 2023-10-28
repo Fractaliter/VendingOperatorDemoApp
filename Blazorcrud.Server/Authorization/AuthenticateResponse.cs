@@ -1,5 +1,5 @@
-namespace Blazorcrud.Server.Authorization;
-using Blazorcrud.Shared.Models;
+namespace VendingOperator.Server.Authorization;
+using VendingOperator.Shared.Models;
 
 public class AuthenticateResponse
 {

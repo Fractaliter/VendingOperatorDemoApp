@@ -8,7 +8,7 @@
     }
   },
   "profiles": {
-    "Blazorcrud.Server": {
+    "VendingOperator.Server": {
       "commandName": "Project",
       "dotnetRunMessages": true,
       "launchBrowser": true,

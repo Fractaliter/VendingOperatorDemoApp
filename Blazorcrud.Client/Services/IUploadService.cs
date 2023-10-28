@@ -1,7 +1,7 @@
-using Blazorcrud.Shared.Data;
-using Blazorcrud.Shared.Models;
+using VendingOperator.Shared.Data;
+using VendingOperator.Shared.Models;
 
-namespace Blazorcrud.Client.Services
+namespace VendingOperator.Client.Services
 {
     public interface IUploadService
     {

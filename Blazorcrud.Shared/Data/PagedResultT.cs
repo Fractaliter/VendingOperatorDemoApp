@@ -1,4 +1,4 @@
-namespace Blazorcrud.Shared.Data
+namespace VendingOperator.Shared.Data
 {
     public class PagedResult<T> : PagedResultBase where T : class
     {

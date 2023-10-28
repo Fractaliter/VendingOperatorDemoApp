@@ -1,6 +1,6 @@
 using Quartz;
 
-namespace Blazorcrud.Server.Services
+namespace VendingOperator.Server.Services
 {
     public static class ServiceCollectionQuartzConfiguratorExtensions
     {

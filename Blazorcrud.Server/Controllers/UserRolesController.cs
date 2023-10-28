@@ -1,9 +1,9 @@
-﻿using Blazorcrud.Server.Models;
-using Blazorcrud.Shared.Models;
+﻿using VendingOperator.Server.Models;
+using VendingOperator.Shared.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 
-namespace Blazorcrud.Server.Controllers
+namespace VendingOperator.Server.Controllers
 {
 
     [Route("api")]

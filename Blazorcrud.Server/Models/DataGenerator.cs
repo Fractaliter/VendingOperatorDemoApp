@@ -1,7 +1,7 @@
-using Blazorcrud.Shared.Models;
+using VendingOperator.Shared.Models;
 using Bogus;
 
-namespace Blazorcrud.Server.Models
+namespace VendingOperator.Server.Models
 {
     public class DataGenerator
     {
@@ -20,7 +20,7 @@ namespace Blazorcrud.Server.Models
                         .RuleFor(a => a.ZipCode, f => f.Address.ZipCode());
 
                     // Create new people
-                    var testPeople = new Faker<Blazorcrud.Shared.Models.Person>()
+                    var testPeople = new Faker<VendingOperator.Shared.Models.Person>()
                         .RuleFor(p => p.FirstName, f => f.Name.FirstName())
                         .RuleFor(p => p.LastName, f => f.Name.LastName())
                         .RuleFor(p => p.Gender, f => f.PickRandom<Gender>())
@@ -29,7 +29,7 @@ namespace Blazorcrud.Server.Models
                         
                     var people = testPeople.Generate(25);
 
-                    foreach (Blazorcrud.Shared.Models.Person p in people)
+                    foreach (VendingOperator.Shared.Models.Person p in people)
                     {
                         appDbContext.People.Add(p);
                     }

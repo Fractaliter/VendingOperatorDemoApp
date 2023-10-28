@@ -1,4 +1,4 @@
-namespace Blazorcrud.Shared.Models
+namespace VendingOperator.Shared.Models
 {
     public enum Gender
     {

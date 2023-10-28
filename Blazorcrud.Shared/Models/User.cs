@@ -1,7 +1,7 @@
 
 using System.Text.Json.Serialization;
 
-namespace Blazorcrud.Shared.Models
+namespace VendingOperator.Shared.Models
 {
     public class User
     {

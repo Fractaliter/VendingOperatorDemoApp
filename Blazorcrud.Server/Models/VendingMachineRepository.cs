@@ -1,8 +1,8 @@
-using Blazorcrud.Shared.Data;
-using Blazorcrud.Shared.Models;
+using VendingOperator.Shared.Data;
+using VendingOperator.Shared.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace Blazorcrud.Server.Models
+namespace VendingOperator.Server.Models
 {
     public class VendingMachineRepository : IVendingMachineRepository
     {

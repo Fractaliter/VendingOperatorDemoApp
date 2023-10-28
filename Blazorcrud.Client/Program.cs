@@ -1,6 +1,6 @@
-using Blazorcrud.Client;
-using Blazorcrud.Client.Services;
-using Blazorcrud.Client.Shared;
+using VendingOperator.Client;
+using VendingOperator.Client.Services;
+using VendingOperator.Client.Shared;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 

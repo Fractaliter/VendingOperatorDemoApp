@@ -1,7 +1,7 @@
-﻿using Blazorcrud.Shared.Models;
+﻿using VendingOperator.Shared.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace Blazorcrud.Server.Models
+namespace VendingOperator.Server.Models
 {
     public class RoleRepository : IRoleRepository
     {

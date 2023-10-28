@@ -1,7 +1,7 @@
 using Microsoft.JSInterop;
 using System.Text.Json;
 
-namespace Blazorcrud.Client.Shared
+namespace VendingOperator.Client.Shared
 {
     public interface ILocalStorageService
     {

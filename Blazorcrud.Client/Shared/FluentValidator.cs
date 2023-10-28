@@ -2,7 +2,7 @@ using FluentValidation;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
 
-namespace Blazorcrud.Client.Shared
+namespace VendingOperator.Client.Shared
 {
     public class FluentValidator<TValidator> : ComponentBase where TValidator : IValidator, new()
     {

@@ -1,8 +1,8 @@
-namespace Blazorcrud.Server.Authorization;
+namespace VendingOperator.Server.Authorization;
 
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
-using Blazorcrud.Shared.Models;
+using VendingOperator.Shared.Models;
 
 [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method)]
 public class AuthorizeAttribute : Attribute, IAuthorizationFilter

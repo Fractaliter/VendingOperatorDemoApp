@@ -1,10 +1,10 @@
-using Blazorcrud.Server.Authorization;
-using Blazorcrud.Server.Helpers;
-using Blazorcrud.Shared.Data;
-using Blazorcrud.Shared.Models;
+using VendingOperator.Server.Authorization;
+using VendingOperator.Server.Helpers;
+using VendingOperator.Shared.Data;
+using VendingOperator.Shared.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace Blazorcrud.Server.Models
+namespace VendingOperator.Server.Models
 {
     public class UserRepository : IUserRepository
     {

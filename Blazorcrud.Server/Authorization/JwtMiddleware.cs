@@ -1,5 +1,5 @@
-namespace Blazorcrud.Server.Authorization;
-using Blazorcrud.Server.Models;
+namespace VendingOperator.Server.Authorization;
+using VendingOperator.Server.Models;
 
 public class JwtMiddleware
 {

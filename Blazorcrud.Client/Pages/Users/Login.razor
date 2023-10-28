@@ -2,7 +2,7 @@
 @inject Services.IUserService UserService
 @inject IAlertService AlertService
 @inject NavigationManager navManager
-@inject Blazorcrud.Client.Shared.PageHistoryState PageHistoryState
+@inject VendingOperator.Client.Shared.PageHistoryState PageHistoryState
 
 <div class="col-md-6 offset-md-3 mt-5">
     <div class="card">
@@ -33,7 +33,7 @@
 </div>
 
 @code {
-    private Blazorcrud.Client.Shared.Login loginModel = new Blazorcrud.Client.Shared.Login();
+    private VendingOperator.Client.Shared.Login loginModel = new VendingOperator.Client.Shared.Login();
     private bool loading;
 
     private async void OnValidSubmit()

@@ -1,7 +1,7 @@
-﻿using Blazorcrud.Server.Authorization;
-using Blazorcrud.Server.Helpers;
-using Blazorcrud.Server.Models;
-using Blazorcrud.Server.Services;
+﻿using VendingOperator.Server.Authorization;
+using VendingOperator.Server.Helpers;
+using VendingOperator.Server.Models;
+using VendingOperator.Server.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using System.Reflection;
@@ -79,7 +79,7 @@ else
 app.UseSwagger();
 app.UseSwaggerUI(c => 
 {
-    c.SwaggerEndpoint("/swagger/v1/swagger.json", "blazorcrud.api v1");
+    c.SwaggerEndpoint("/swagger/v1/swagger.json", "VendingOperator.api v1");
     c.DefaultModelsExpandDepth(-1);
 });
 

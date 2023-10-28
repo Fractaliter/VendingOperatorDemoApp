@@ -1,4 +1,4 @@
-namespace Blazorcrud.Server.Helpers;
+namespace VendingOperator.Server.Helpers;
 using System.Globalization;
 
 // custom exception class for throwing application specific exceptions (e.g. for validation) 

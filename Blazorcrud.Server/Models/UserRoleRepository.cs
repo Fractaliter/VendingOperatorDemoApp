@@ -2,9 +2,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Blazorcrud.Shared.Models;
+using VendingOperator.Shared.Models;
 
-namespace Blazorcrud.Server.Models
+namespace VendingOperator.Server.Models
 {
     public class UserRoleRepository : IUserRoleRepository
     {

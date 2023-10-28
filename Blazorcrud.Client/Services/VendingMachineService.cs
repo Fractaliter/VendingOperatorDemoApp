@@ -1,9 +1,9 @@
-using Blazorcrud.Client.Shared;
-using Blazorcrud.Shared.Data;
-using Blazorcrud.Shared.Models;
+using VendingOperator.Client.Shared;
+using VendingOperator.Shared.Data;
+using VendingOperator.Shared.Models;
 using System.Web.Http;
 
-namespace Blazorcrud.Client.Services
+namespace VendingOperator.Client.Services
 {
     public class VendingMachineService : IVendingMachineService
     {

@@ -1,4 +1,4 @@
-namespace Blazorcrud.Server.Authorization;
+namespace VendingOperator.Server.Authorization;
 
 public class AuthenticateRequest
 {

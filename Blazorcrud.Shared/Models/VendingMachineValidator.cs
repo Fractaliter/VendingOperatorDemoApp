@@ -1,6 +1,6 @@
 using FluentValidation;
 
-namespace Blazorcrud.Shared.Models
+namespace VendingOperator.Shared.Models
 {
     public class VendingMachineValidator : AbstractValidator<VendingMachine>
     {

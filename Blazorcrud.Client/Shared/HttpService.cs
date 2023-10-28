@@ -1,4 +1,4 @@
-using Blazorcrud.Shared.Models;
+using VendingOperator.Shared.Models;
 using Microsoft.AspNetCore.Components;
 using System.Net;
 using System.Net.Http.Headers;
@@ -6,7 +6,7 @@ using System.Net.Http.Json;
 using System.Text;
 using System.Text.Json;
 
-namespace Blazorcrud.Client.Shared
+namespace VendingOperator.Client.Shared
 {
     public interface IHttpService
     {
