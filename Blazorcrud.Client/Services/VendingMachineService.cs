@@ -1,7 +1,7 @@
 using Blazorcrud.Client.Shared;
 using Blazorcrud.Shared.Data;
 using Blazorcrud.Shared.Models;
-using Microsoft.AspNetCore.Components;
+using System.Web.Http;
 
 namespace Blazorcrud.Client.Services
 {
@@ -29,7 +29,7 @@ namespace Blazorcrud.Client.Services
             await _httpService.Delete($"api/vendingMachine/{id}");
         }
 
-        public async Task AddVendingMachine(VendingMachine person)
+        public async Task AddVendingMachine([FromBody]VendingMachine person)
         {
             await _httpService.Post($"api/vendingMachine", person);
         }

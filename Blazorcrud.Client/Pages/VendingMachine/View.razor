@@ -13,8 +13,23 @@
             <td>@vendingMachine.VendingMachineId</td>
         </tr>
         <tr>
-            <th scope="row">First Name</th>
+            <th scope="row">Vending Machine Name</th>
             <td>@vendingMachine.VendingMachineName</td>
+        </tr>
+
+        <tr>
+            <th scope="row">Capacity</th>
+            <td>@vendingMachine.Capacity</td>
+        </tr>
+
+        <tr>
+            <th scope="row">Location</th>
+            <td>@vendingMachine.Location</td>
+        </tr>
+
+        <tr>
+            <th scope="row">User</th>
+            <td>@vendingMachine.UserID</td>
         </tr>
     </tbody>
 </table>
@@ -33,8 +48,12 @@
     public string Id { get; set; }
 
     VendingMachine vendingMachine = new VendingMachine
-    {
+        {
             VendingMachineName = "",
+            VendingMachineStatus = "",
+            Capacity = 0,
+            Location = "",
+            UserID = 0
     };
     
     protected async override Task OnParametersSetAsync()

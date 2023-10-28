@@ -13,10 +13,14 @@
 
 @code {
     bool loading = false;
-    
+
     VendingMachine vendingmachine = new VendingMachine
-    {
-            VendingMachineName = ""
+        {
+            VendingMachineName = "",
+            VendingMachineStatus = "",
+            Capacity = 0,
+            Location = "",
+            UserID = 0
     };
     async Task CreateVendingMachine()
     {
