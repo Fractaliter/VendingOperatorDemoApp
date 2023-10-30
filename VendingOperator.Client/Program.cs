@@ -9,6 +9,7 @@ builder.RootComponents.Add<App>("#app");
 builder.RootComponents.Add<HeadOutlet>("head::after");
 builder.Services.AddScoped<IPersonService, PersonService>();
 builder.Services.AddScoped<IVendingMachineService, VendingMachineService>();
+builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<IUploadService, UploadService>();
 builder.Services.AddScoped<IAlertService, AlertService>();
 builder.Services.AddScoped<IUserService, UserService>();
