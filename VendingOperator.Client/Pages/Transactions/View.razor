@@ -1,0 +1,65 @@
+@page "/Transaction/viewTransaction/{id}"
+@inject ITransactionService TransactionService
+@inject NavigationManager navManager
+@inject VendingOperator.Client.Shared.PageHistoryState PageHistoryState
+
+<h1>View Transactions</h1>
+<br />
+
+<table class="table col-md-6">
+    <tbody>
+        <tr>
+            <th scope="row">Id</th>
+            <td>@Transaction.TransactionId</td>
+        </tr>
+        <tr>
+            <th scope="row">Vending Machine</th>
+            <td>@Transaction.MachineId</td>
+        </tr>
+
+        <tr>
+            <th scope="row">ProductId</th>
+            <td>@Transaction.ProductId</td>
+        </tr>
+
+        <tr>
+            <th scope="row">Operator</th>
+            <td>@Transaction.Person</td>
+        </tr>
+
+        <tr>
+            <th scope="row">AmountPaid</th>
+            <td>@Transaction.AmountPaid</td>
+        </tr>
+    </tbody>
+</table>
+
+<div class="form-group">
+    @if (PageHistoryState.CanGoBack())
+    {
+        <NavLink href="@PageHistoryState.GetGoBackPage()" class="btn btn-link">Back</NavLink>
+    }
+    else
+    {
+        <NavLink href="/Transaction/1" class="btn btn-link">Back</NavLink>
+    }
+</div>
+
+@code {
+    [Parameter]
+    public string Id { get; set; }
+
+    Transaction Transaction = new Transaction
+        {
+            MachineId = 0,
+            ProductId = 0,
+            PersonId = 0,
+            Timestamp = DateTime.Now,
+            AmountPaid = 0
+        };
+
+    protected async override Task OnParametersSetAsync()
+    {
+        Transaction = await TransactionService.GetTransaction(int.Parse(Id));
+    }
+}

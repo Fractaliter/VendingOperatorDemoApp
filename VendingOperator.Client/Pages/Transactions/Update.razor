@@ -1,0 +1,50 @@
+@page "/transaction/updatetransaction/{id}"
+@attribute [Authorize]
+@inject IAlertService AlertService
+@inject ITransactionService TransactionService
+@inject NavigationManager navManager
+@inject VendingOperator.Client.Shared.PageHistoryState PageHistoryState
+
+<h1>Edit Transaction</h1>
+<br/>
+
+<Form ButtonText="Update Transaction" Transaction="@Transaction" loading="@loading"
+            OnValidSubmit="@UpdateTransaction" />
+
+@code {
+    bool loading = false;
+    
+    [Parameter]
+    public string Id { get; set; }
+
+    Transaction Transaction = new Transaction
+    {
+    };
+    
+    protected async override Task OnParametersSetAsync()
+    {
+       Transaction = await TransactionService.GetTransaction(int.Parse(Id));
+    }
+
+    async Task UpdateTransaction()
+    {
+        loading = true;
+        try
+        {
+            await TransactionService.UpdateTransaction(Transaction);
+            AlertService.Success("Transaction updated successfully", keepAfterRouteChange: true);
+            if (PageHistoryState.CanGoBack()){
+                navManager.NavigateTo(PageHistoryState.GetGoBackPage());
+            }
+            else{
+                navManager.NavigateTo("/transaction/1");
+            } 
+        }
+        catch (Exception ex)
+        {
+            AlertService.Error(ex.Message);
+            loading = false;
+            StateHasChanged();
+        }
+    }
+}

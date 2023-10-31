@@ -17,6 +17,7 @@ namespace VendingOperator.Server.Models
         public DbSet<User> Users => Set<User>();
         public DbSet<UserRole> UserRoles => Set<UserRole>();
         public DbSet<Role> Roles => Set<Role>();
+        public DbSet<Transaction> Transactions => Set<Transaction>();
         public DbSet<VendingMachine> VendingMachines => Set<VendingMachine>();
     }
 }

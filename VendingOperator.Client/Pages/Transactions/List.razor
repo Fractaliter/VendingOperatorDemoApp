@@ -1,35 +1,35 @@
-@page "/vendingmachine/{Page}"
-@inject Services.IVendingMachineService VendingMachineService
+@page "/transaction/{Page}"
+@inject Services.ITransactionService TransactionService
 @inject Services.IUserService UserService
 @inject Microsoft.AspNetCore.Components.NavigationManager UriHelper
 @inject VendingOperator.Client.Shared.PageHistoryState PageHistoryState
 
-<h1>Vending Machines</h1>
+<h1>Transactions</h1>
 <br/>
 
 <div class="row mb-3">
     <div class="col-md-7">
         @if(LoggedIn)
         {
-            <NavLink href="/vendingmachine/createvendingmachine" class="btn btn-sm btn-success mb-2">Add Vending Machine</NavLink>
+            <NavLink href="/transaction/createtransaction" class="btn btn-sm btn-success mb-2">Add Vending Machine</NavLink>
         }
     </div>
     <div class="input-group col-md-5 text-md-right">
-        <input name="VendingMachineSearchInput" type="text" class="form-control" placeholder="Vending Machine Name" @bind="this.SearchTerm" @onkeyup="SearchBoxKeyPress" />
+        <input name="TransactionSearchInput" type="text" class="form-control" placeholder="Vending Machine Name" @bind="this.SearchTerm" @onkeyup="SearchBoxKeyPress" />
         <div class="input-group-btn">
-            <button name="VendingMachineSearchButton" class="btn btn-default" @onclick="SearchClick">
+            <button name="TransactionSearchButton" class="btn btn-default" @onclick="SearchClick">
                 <i class="oi oi-magnifying-glass" title="search" aria-hidden="true"></i>
             </button>
         </div>
         <div class="input-group-btn">
-            <button name="VendingMachineSearchClear" class="btn btn-default" @onclick="ClearSearch">
+            <button name="TransactionSearchClear" class="btn btn-default" @onclick="ClearSearch">
                 <i class="oi oi-x" title="clear" aria-hidden="true"></i>
             </button>
         </div>
     </div>
 </div>
 
-@if (vendingMachines == null)
+@if (Transactions == null)
 {
     <p><em>Loading...</em></p>
 }
@@ -38,29 +38,30 @@ else
     <table class="table table-striped">
         <thead>
             <tr>
-                <th style="width:40%">Vending Machine Name</th>
-                <th style="width:10%">Vending Machine Status</th>
-                <th style="width:40%">Location</th>
-                <th style="width:10%">Capacity</th>
+                <th style="width:20%">AmountPaid</th>
+                <th style="width:20%">MachineId</th>
+                <th style="width:20%">ProductId</th>
+                <th style="width:20%">PersonId</th>
+                <th style="width:20%">Timestamp</th>
             </tr>
         </thead>
         <tbody>
-            @foreach (var vendingMachine in vendingMachines.Results)
+            @foreach (var Transaction in Transactions.Results)
             {
                 <tr>
-                    <td>@vendingMachine.VendingMachineName</td>
+                    <td>@Transaction.TransactionId</td>
                     <td style="white-space: nowrap">
-                        <NavLink href="@($"/vendingmachine/viewvendingmachine/{vendingMachine.VendingMachineId}")" class="oi oi-eye text-primary mr-3 nounderline"></NavLink>
+                        <NavLink href="@($"/transaction/viewtransaction/{Transaction.TransactionId}")" class="oi oi-eye text-primary mr-3 nounderline"></NavLink>
                         @if (LoggedIn)
                         {
-                            <NavLink href="@($"/vendingmachine/updatevendingmachine/{vendingMachine.VendingMachineId}")" class="oi oi-pencil text-warning mr-2 nounderline"></NavLink>
+                            <NavLink href="@($"/transaction/updatetransaction/{Transaction.TransactionId}")" class="oi oi-pencil text-warning mr-2 nounderline"></NavLink>
                         }
                     </td>
                 </tr> 
             }
         </tbody>
     </table>
-    <Pager Result=@vendingMachines PageChanged=PagerPageChanged />
+    <Pager Result=@Transactions PageChanged=PagerPageChanged />
 }
 
 @code {
@@ -68,7 +69,7 @@ else
     public string Page { get; set;} = "1";
     [Parameter]
     public string SearchTerm { get; set; } = string.Empty;
-    protected PagedResult<VendingMachine> vendingMachines;
+    protected PagedResult<Transaction> Transactions;
     
     public bool LoggedIn
     {
@@ -83,7 +84,7 @@ else
     
     protected override async Task OnParametersSetAsync()
     {
-        vendingMachines = await VendingMachineService.GetVendingMachines(null, Page);
+        Transactions = await TransactionService.GetTransactions(null, Page);
         PageHistoryState.AddPageToHistory(UriHelper.Uri);
     }
 
@@ -99,32 +100,32 @@ else
     {
         if (string.IsNullOrEmpty(SearchTerm))
         {
-            vendingMachines = await VendingMachineService.GetVendingMachines(null, Page);
+            Transactions = await TransactionService.GetTransactions(null, Page);
             return;
         }
-        vendingMachines = await VendingMachineService.GetVendingMachines(SearchTerm, Page);
+        Transactions = await TransactionService.GetTransactions(SearchTerm, Page);
         StateHasChanged();
     }
 
     protected async Task ClearSearch()
     {
         SearchTerm = string.Empty;
-        vendingMachines = await VendingMachineService.GetVendingMachines(SearchTerm, Page);
+        Transactions = await TransactionService.GetTransactions(SearchTerm, Page);
         PageHistoryState.AddPageToHistory(UriHelper.Uri);
         StateHasChanged();
     }
 
     protected void PagerPageChanged(int page)
     {
-        UriHelper.NavigateTo("/vendingmachine/" + page);
+        UriHelper.NavigateTo("/transaction/" + page);
         PageHistoryState.AddPageToHistory(UriHelper.Uri);
     }
 
-    private async void DeleteVendingMachine(VendingMachine _vendingMachines)
+    private async void DeleteTransaction(Transaction _Transactions)
     {
-                var vendingMachine = _vendingMachines;
-                await VendingMachineService.DeleteVendingMachine(vendingMachine.VendingMachineId);
-        vendingMachines = await VendingMachineService.GetVendingMachines(null, Page);
+                var Transaction = _Transactions;
+                await TransactionService.DeleteTransaction(Transaction.TransactionId);
+        Transactions = await TransactionService.GetTransactions(null, Page);
         StateHasChanged();
     }
 }

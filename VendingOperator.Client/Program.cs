@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 var builder = WebAssemblyHostBuilder.CreateDefault(args);
 builder.RootComponents.Add<App>("#app");
 builder.RootComponents.Add<HeadOutlet>("head::after");
+builder.Services.AddScoped<ITransactionService, TransactionService>();
 builder.Services.AddScoped<IPersonService, PersonService>();
 builder.Services.AddScoped<IVendingMachineService, VendingMachineService>();
 builder.Services.AddScoped<IProductService, ProductService>();

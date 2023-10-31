@@ -1,0 +1,46 @@
+@page "/transaction/createtransaction"
+@attribute [Authorize]
+@inject IAlertService AlertService
+@inject ITransactionService TransactionService
+@inject NavigationManager navManager
+@inject VendingOperator.Client.Shared.PageHistoryState PageHistoryState
+
+<h1>Create Transaction</h1>
+<br/>
+
+<Form ButtonText="Create Transaction" Transaction="@Transaction" loading="@loading"
+      OnValidSubmit="@CreateTransaction" />
+
+@code {
+    bool loading = false;
+
+    Transaction Transaction = new Transaction
+        {
+            MachineId = 0,
+            ProductId = 0,
+            PersonId = 0,
+            Timestamp = DateTime.Now,
+            AmountPaid = 0
+    };
+    async Task CreateTransaction()
+    {
+        loading = true;
+        try
+        {
+            await TransactionService.AddTransaction(Transaction);
+            AlertService.Success("Transaction added successfully", keepAfterRouteChange: true);
+            if (PageHistoryState.CanGoBack()){
+                navManager.NavigateTo(PageHistoryState.GetGoBackPage());
+            }
+            else{
+                navManager.NavigateTo("/transaction/1");
+            } 
+        }
+        catch (Exception ex)
+        {
+            AlertService.Error(ex.Message);
+            loading = false;
+            StateHasChanged();
+        }
+    }
+}
