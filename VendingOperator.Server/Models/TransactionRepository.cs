@@ -4,82 +4,81 @@ using Microsoft.EntityFrameworkCore;
 
 namespace VendingOperator.Server.Models
 {
-    public class VendingMachineRepository : IVendingMachineRepository
+    public class TransactionRepository : ITransactionRepository
     {
         private readonly AppDbContext _appDbContext;
 
-        public VendingMachineRepository(AppDbContext appDbContext)
+        public TransactionRepository(AppDbContext appDbContext)
         {
             _appDbContext = appDbContext;
         }
 
-        public async Task<VendingMachine> AddVendingMachine(VendingMachine vendingMachine)
+        public async Task<Transaction> AddTransaction(Transaction Transaction)
         {
-            var result = await _appDbContext.VendingMachines.AddAsync(vendingMachine);
+            var result = await _appDbContext.Transactions.AddAsync(Transaction);
             await _appDbContext.SaveChangesAsync();
             return result.Entity;
         }
 
-        public async Task<VendingMachine?> DeleteVendingMachine(int vendingMachineId)
+        public async Task<Transaction?> DeleteTransaction(int TransactionId)
         {
-            var result = await _appDbContext.VendingMachines.FirstOrDefaultAsync(p => p.VendingMachineId == vendingMachineId);
-            if (result!=null)
+            var result = await _appDbContext.Transactions.FirstOrDefaultAsync(p => p.TransactionId == TransactionId);
+            if (result != null)
             {
-                _appDbContext.VendingMachines.Remove(result);
+                _appDbContext.Transactions.Remove(result);
                 await _appDbContext.SaveChangesAsync();
             }
             else
             {
-                throw new KeyNotFoundException("VendingMachine not found");
+                throw new KeyNotFoundException("Transaction not found");
             }
             return result;
         }
 
-        public async Task<VendingMachine?> GetVendingMachine(int vendingMachineId)
+        public async Task<Transaction?> GetTransaction(int TransactionId)
         {
-            var result = await _appDbContext.VendingMachines
-                .FirstOrDefaultAsync(p => p.VendingMachineId == vendingMachineId);
+            var result = await _appDbContext.Transactions
+                .FirstOrDefaultAsync(p => p.TransactionId == TransactionId);
             if (result != null)
             {
                 return result;
             }
             else
             {
-                throw new KeyNotFoundException("VendingMachine not found");
+                throw new KeyNotFoundException("Transaction not found");
             }
         }
 
-        public PagedResult<VendingMachine> GetVendingMachines(string? vendingMachineName, int page)
+        public PagedResult<Transaction> GetTransactions(string? TransactionName, int page)
         {
             int pageSize = 5;
-            
-            if (vendingMachineName != null)
+
+            if (TransactionName != null)
             {
-                return _appDbContext.VendingMachines
-                    .Where(p => p.VendingMachineName.Contains(vendingMachineName, StringComparison.CurrentCultureIgnoreCase))
+                return _appDbContext.Transactions
                     .GetPaged(page, pageSize);
             }
             else
             {
-                return _appDbContext.VendingMachines
+                return _appDbContext.Transactions
                     .GetPaged(page, pageSize);
             }
         }
 
-        public async Task<VendingMachine?> UpdateVendingMachine(VendingMachine vendingMachine)
+        public async Task<Transaction?> UpdateTransaction(Transaction Transaction)
         {
-            var result = await _appDbContext.VendingMachines.FirstOrDefaultAsync(p => p.VendingMachineId == vendingMachine.VendingMachineId);
-            if (result!=null)
+            var result = await _appDbContext.Transactions.FirstOrDefaultAsync(p => p.TransactionId == Transaction.TransactionId);
+            if (result != null)
             {
-                // Update existing VendingMachine
-                _appDbContext.Entry(result).CurrentValues.SetValues(vendingMachine);
-                
+                // Update existing Transaction
+                _appDbContext.Entry(result).CurrentValues.SetValues(Transaction);
+
 
                 await _appDbContext.SaveChangesAsync();
             }
             else
             {
-                throw new KeyNotFoundException("VendingMachine not found");
+                throw new KeyNotFoundException("Transaction not found");
             }
             return result;
         }

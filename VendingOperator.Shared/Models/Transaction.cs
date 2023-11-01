@@ -13,20 +13,20 @@ namespace VendingOperator.Shared.Models
         [Key]
         public int TransactionId { get; set; }
 
-        [ForeignKey("Machine")]
-        public int MachineId { get; set; }
+        [ForeignKey("VendingMachine")]
+        public int? VendingMachineId { get; set; }
 
-        public VendingMachine Machine { get; set; }
+        public VendingMachine? VendingMachine { get; set; }
 
         [ForeignKey("Product")]
-        public int ProductId { get; set; }
+        public int? ProductId { get; set; }
 
-        public Product Product { get; set; }
+        public Product? Product { get; set; }
 
         [ForeignKey("User")]
-        public int PersonId { get; set; }
+        public int? UserId { get; set; }
 
-        public Person Person { get; set; }
+        public User? User { get; set; }
 
         [Required]
         public DateTime Timestamp { get; set; }

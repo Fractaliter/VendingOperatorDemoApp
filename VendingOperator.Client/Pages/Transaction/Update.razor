@@ -18,8 +18,16 @@
     public string Id { get; set; }
 
     Transaction Transaction = new Transaction
-    {
-    };
+        {
+            VendingMachineId = 0,
+            VendingMachine = null,
+            ProductId = 0,
+            Product = null,
+            UserId = 0,
+            User = null,
+            Timestamp = DateTime.Now,
+            AmountPaid = 0
+        };
     
     protected async override Task OnParametersSetAsync()
     {

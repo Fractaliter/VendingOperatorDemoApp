@@ -16,27 +16,27 @@ namespace VendingOperator.Client.Services
 
         public async Task<PagedResult<VendingMachine>> GetVendingMachines(string? name, string page)
         {
-            return await _httpService.Get<PagedResult<VendingMachine>>("api/vendingMachine" + "?page=" + page + "&name=" + name);
+            return await _httpService.Get<PagedResult<VendingMachine>>("api/vendingmachine" + "?page=" + page + "&name=" + name);
         }
 
         public async Task<VendingMachine> GetVendingMachine(int id)
         {
-            return await _httpService.Get<VendingMachine>($"api/vendingMachine/{id}");
+            return await _httpService.Get<VendingMachine>($"api/vendingmachine/{id}");
         }
 
         public async Task DeleteVendingMachine(int id)
         {
-            await _httpService.Delete($"api/vendingMachine/{id}");
+            await _httpService.Delete($"api/vendingmachine/{id}");
         }
 
         public async Task AddVendingMachine([FromBody]VendingMachine person)
         {
-            await _httpService.Post($"api/vendingMachine", person);
+            await _httpService.Post($"api/vendingmachine", person);
         }
 
         public async Task UpdateVendingMachine(VendingMachine vendingMachine)
         {
-            await _httpService.Put($"api/vendingMachine", vendingMachine);
+            await _httpService.Put($"api/vendingmachine", vendingMachine);
         }
     }
 }

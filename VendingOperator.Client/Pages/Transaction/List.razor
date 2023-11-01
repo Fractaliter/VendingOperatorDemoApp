@@ -38,10 +38,11 @@ else
     <table class="table table-striped">
         <thead>
             <tr>
-                <th style="width:20%">AmountPaid</th>
-                <th style="width:20%">MachineId</th>
+                <th style="width:10%">TransactionId</th>
+                <th style="width:10%">AmountPaid</th>
+                <th style="width:20%">VendingMachineId</th>
                 <th style="width:20%">ProductId</th>
-                <th style="width:20%">PersonId</th>
+                <th style="width:20%">UserId</th>
                 <th style="width:20%">Timestamp</th>
             </tr>
         </thead>
@@ -50,6 +51,11 @@ else
             {
                 <tr>
                     <td>@Transaction.TransactionId</td>
+                    <td>@Transaction.AmountPaid</td>
+                    <td>@Transaction.VendingMachineId</td>
+                    <td>@Transaction.ProductId</td>
+                    <td>@Transaction.UserId</td>
+                    <td>@Transaction.Timestamp</td>
                     <td style="white-space: nowrap">
                         <NavLink href="@($"/transaction/viewtransaction/{Transaction.TransactionId}")" class="oi oi-eye text-primary mr-3 nounderline"></NavLink>
                         @if (LoggedIn)

@@ -29,9 +29,9 @@ namespace VendingOperator.Client.Services
             await _httpService.Delete($"api/transaction/{id}");
         }
 
-        public async Task AddTransaction([FromBody] Transaction person)
+        public async Task AddTransaction([FromBody] Transaction Transaction)
         {
-            await _httpService.Post($"api/transaction", person);
+            await _httpService.Post($"api/transaction", Transaction);
         }
 
         public async Task UpdateTransaction(Transaction Transaction)

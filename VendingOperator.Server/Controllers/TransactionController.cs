@@ -22,7 +22,7 @@ namespace VendingOperator.Server.Controllers
         /// </summary>
         [AllowAnonymous]
         [HttpGet]
-        public ActionResult GetPeople([FromQuery] string? name, int page)
+        public ActionResult GetTransactions([FromQuery] string? name, int page)
         {
             return Ok(_TransactionRepository.GetTransactions(name, page));
         }

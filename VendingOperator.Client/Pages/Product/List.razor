@@ -11,11 +11,11 @@
     <div class="col-md-7">
         @if(LoggedIn)
         {
-            <NavLink href="/product/createproduct" class="btn btn-sm btn-success mb-2">Add Vending Machine</NavLink>
+            <NavLink href="/product/createproduct" class="btn btn-sm btn-success mb-2">Add Product</NavLink>
         }
     </div>
     <div class="input-group col-md-5 text-md-right">
-        <input name="productSearchInput" type="text" class="form-control" placeholder="Vending Machine Name" @bind="this.SearchTerm" @onkeyup="SearchBoxKeyPress" />
+        <input name="productSearchInput" type="text" class="form-control" placeholder="Product Name" @bind="this.SearchTerm" @onkeyup="SearchBoxKeyPress" />
         <div class="input-group-btn">
             <button name="productSearchButton" class="btn btn-default" @onclick="SearchClick">
                 <i class="oi oi-magnifying-glass" title="search" aria-hidden="true"></i>
@@ -49,6 +49,9 @@ else
             {
                 <tr>
                     <td>@product.ProductName</td>
+                    <td>@product.Description</td>
+                    <td>@product.StockQuantity</td>
+                    <td>@product.Price</td>
                     <td style="white-space: nowrap">
                         <NavLink href="@($"/product/viewproduct/{product.ProductId}")" class="oi oi-eye text-primary mr-3 nounderline"></NavLink>
                         @if (LoggedIn)

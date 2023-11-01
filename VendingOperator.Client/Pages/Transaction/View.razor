@@ -14,7 +14,7 @@
         </tr>
         <tr>
             <th scope="row">Vending Machine</th>
-            <td>@Transaction.MachineId</td>
+            <td>@Transaction.VendingMachineId</td>
         </tr>
 
         <tr>
@@ -24,7 +24,7 @@
 
         <tr>
             <th scope="row">Operator</th>
-            <td>@Transaction.Person</td>
+            <td>@Transaction.User</td>
         </tr>
 
         <tr>
@@ -51,9 +51,9 @@
 
     Transaction Transaction = new Transaction
         {
-            MachineId = 0,
+            VendingMachineId = 0,
             ProductId = 0,
-            PersonId = 0,
+            UserId = 0,
             Timestamp = DateTime.Now,
             AmountPaid = 0
         };

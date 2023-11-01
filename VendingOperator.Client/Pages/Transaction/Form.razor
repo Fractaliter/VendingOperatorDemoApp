@@ -1,5 +1,5 @@
 @inject VendingOperator.Client.Shared.PageHistoryState PageHistoryState
-@inject IPersonService PersonService
+@inject IUserService UserService
 @inject IVendingMachineService VendingMachineService
 @inject IProductService ProductService
 
@@ -16,27 +16,27 @@
     <div class="form-group">
         <label>Machine :</label>
         <div>
-            <InputSelect @bind-Value="@Transaction.MachineId" class="form-control col-sm-3">
+            <InputSelect @bind-Value="@Transaction.VendingMachineId" class="form-control col-sm-3">
                 @foreach (var machine in vmachines)
                 {
                     <option value="@machine.VendingMachineId">@machine.VendingMachineName</option>
                 }
 
             </InputSelect>
-            <ValidationMessage For="@(() => Transaction.MachineId)" />
+            <ValidationMessage For="@(() => Transaction.VendingMachineId)" />
         </div>
     </div>
     <div class="form-group">
         <label>Operator :</label>
         <div>
-            <InputSelect @bind-Value="@Transaction.Person" class="form-control col-sm-3">
+            <InputSelect @bind-Value="@Transaction.UserId" class="form-control col-sm-3">
                 @foreach (var person in operators)
                 {
-                    <option value="@person.PersonId">@person.FirstName @person.LastName</option>
+                    <option value="@person.Id">@person.FirstName @person.LastName</option>
                 }
 
             </InputSelect>
-            <ValidationMessage For="@(() => Transaction.PersonId)" />
+            <ValidationMessage For="@(() => Transaction.UserId)" />
         </div>
     </div>
 
@@ -50,7 +50,7 @@
                 }
 
             </InputSelect>
-            <ValidationMessage For="@(() => Transaction.PersonId)" />
+            <ValidationMessage For="@(() => Transaction.ProductId)" />
         </div>
     </div>
 
@@ -86,11 +86,11 @@
     public EventCallback OnValidSubmit { get; set; }
 
     private List<VendingMachine> vmachines = new List<VendingMachine>(); // Assuming you have a list of machines
-    private List<Person> operators = new List<Person>(); // Assuming you have a list of operators
+    private List<User> operators = new List<User>(); // Assuming you have a list of operators
     private List<Product> products = new List<Product>(); // Assuming you have a list of products
     protected override async Task OnInitializedAsync()
     {
-        var pagedResult = await PersonService.GetPeople(null, Page);
+        var pagedResult = await UserService.GetUsers(null, Page);
         var pagedResult2 = await VendingMachineService.GetVendingMachines(null, Page);
         var pagedResult3 = await ProductService.GetProducts(null, Page);
         operators = pagedResult.Results.ToList();

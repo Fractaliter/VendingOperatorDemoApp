@@ -49,6 +49,9 @@ else
             {
                 <tr>
                     <td>@vendingMachine.VendingMachineName</td>
+                    <td>@vendingMachine.VendingMachineStatus</td>
+                    <td>@vendingMachine.Location</td>
+                    <td>@vendingMachine.Capacity</td>
                     <td style="white-space: nowrap">
                         <NavLink href="@($"/vendingmachine/viewvendingmachine/{vendingMachine.VendingMachineId}")" class="oi oi-eye text-primary mr-3 nounderline"></NavLink>
                         @if (LoggedIn)

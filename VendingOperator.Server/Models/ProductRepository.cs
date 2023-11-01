@@ -68,7 +68,7 @@ namespace VendingOperator.Server.Models
 
         public async Task<Product?> UpdateProduct(Product Product)
         {
-            var result = await _appDbContext.Products.Include("Addresses").FirstOrDefaultAsync(p => p.ProductId == Product.ProductId);
+            var result = await _appDbContext.Products.FirstOrDefaultAsync(p => p.ProductId == Product.ProductId);
             if (result != null)
             {
                 // Update existing Product
