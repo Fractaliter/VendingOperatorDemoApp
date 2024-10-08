@@ -77,12 +77,29 @@ namespace VendingOperator.Client.Services
         }
         public async Task<List<UserRoleViewModel>> GetUserRoles(int userId)
         {
-            return await _httpService.Get<List<UserRoleViewModel>>($"api/user/roles?userId={userId}");
+            return await _httpService.Get<List<UserRoleViewModel>>($"api/user/roles/{userId}");
         }
 
         public async Task<PagedResult<UserRoleViewModel>> GetUserWithRoles(string? name, string page)
         {
             return await _httpService.Get<PagedResult<UserRoleViewModel>>($"api/user/withroles" + "?page=" + page + "&name=" + name);
         }
+        public async Task AssignRoleToUser(int userId, int roleId)
+        {
+            // Prepare the query string with userId and roleId
+            string url = $"api/user/assignrole?userId={userId}&roleId={roleId}";
+
+            // Make the POST request (no body required)
+            await _httpService.Post(url, null);
+        }
+        public async Task RemoveRoleFromUser(int userId, int roleId)
+        {
+            // Construct the URL with the userId and roleId as query string parameters
+            string url = $"api/user/deleterole?userId={userId}&roleId={roleId}";
+
+            // Call the DELETE method of the _httpService
+            await _httpService.Delete(url);
+        }
+
     }
 }

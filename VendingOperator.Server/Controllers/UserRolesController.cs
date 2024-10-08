@@ -30,35 +30,42 @@ namespace VendingOperator.Server.Controllers
         }
 
         [HttpPost("user/assignrole")]
-        public IActionResult AssignRoleToUser(int userId, int roleId)
+        public async Task<IActionResult> AssignRoleToUser(int userId, int roleId)
         {
-            var user = _userRepository.GetUser(userId);
-            var role = _roleRepository.GetRole(roleId);
+            // Get the user and role asynchronously
+            var user = await _userRepository.GetUser(userId);
+            var role = await _roleRepository.GetRole(roleId);
 
+            // Check if both user and role exist
             if (user != null && role != null)
             {
-                _userRoleRepository.AssignRoleToUser(userId, roleId);
+                // Assign the role asynchronously
+                await _userRoleRepository.AssignRoleToUser(userId, roleId);
                 return Ok("Role assigned to user successfully.");
             }
 
+            // If either user or role is not found, return a 404
             return NotFound("User or role not found.");
         }
 
-        [HttpGet("user/roles")]
+        [HttpGet("user/roles/{userId}")]
         public async Task<IActionResult> GetRolesForUser(int userId)
         {
             var roles = await _userRoleRepository.GetRolesForUser(userId);
 
             if (roles == null || !roles.Any())
             {
-                return NotFound("No roles found for the specified user.");
+                return Ok(new List<UserRoleViewModel>()); // Return an empty list
             }
 
-            return Ok(roles.Select(ur => new
+            // Return a list of UserRoleViewModel instead of an anonymous object
+            var roleViewModels = roles.Select(ur => new UserRoleViewModel
             {
-                ur.RoleId,
+                RoleId = ur.RoleId,
                 RoleName = ur.Role.Name
-            }));
+            }).ToList();
+
+            return Ok(roleViewModels);
         }
 
         [HttpGet("user/hasrole")]
@@ -73,6 +80,12 @@ namespace VendingOperator.Server.Controllers
         {
             var usersWithRoles = _userRoleRepository.GetUsersWithRoles(name, page);
             return Ok(usersWithRoles);
+        }
+        [HttpDelete("user/deleterole")]
+        public IActionResult RemoveRoleFromUser(int userId,int roleId)
+        {
+            var deleteRoleFromUser = _userRoleRepository.RemoveRoleFromUser(userId, roleId);
+           return Ok(deleteRoleFromUser);
         }
     }
 }

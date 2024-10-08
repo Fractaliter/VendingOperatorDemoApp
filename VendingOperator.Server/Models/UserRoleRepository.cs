@@ -22,6 +22,19 @@ namespace VendingOperator.Server.Models
             _dbContext.UserRoles.Add(new UserRole { UserId = userId, RoleId = roleId });
             await _dbContext.SaveChangesAsync();
         }
+        public async Task RemoveRoleFromUser(int userId, int roleId)
+        {
+            var result = await _dbContext.UserRoles.FirstOrDefaultAsync(ur => ur.RoleId == roleId && ur.UserId == userId);
+            if (result != null)
+            {
+                _dbContext.UserRoles.Remove(result);
+                await _dbContext.SaveChangesAsync();
+            }
+            else
+            {
+                throw new KeyNotFoundException("UserRole not found");
+            }
+        }
 
         public async Task<IEnumerable<UserRole>> GetRolesForUser(int userId)
         {

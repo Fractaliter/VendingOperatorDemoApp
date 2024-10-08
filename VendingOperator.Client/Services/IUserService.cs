@@ -17,5 +17,7 @@ namespace VendingOperator.Client.Services
         Task UpdateUser(User user);
         Task<List<UserRoleViewModel>> GetUserRoles(int userId); // New method to fetch roles
         Task<PagedResult<UserRoleViewModel>> GetUserWithRoles(string? name, string page);
+        Task AssignRoleToUser(int userId, int roleId);
+        Task RemoveRoleFromUser(int userId, int roleId);
     }
 }

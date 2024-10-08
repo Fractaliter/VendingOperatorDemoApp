@@ -2,6 +2,7 @@
 @attribute [Authorize]
 @inject IAlertService AlertService
 @inject IUserService UserService
+@inject IRoleService RoleService
 @inject NavigationManager navManager
 @inject VendingOperator.Client.Shared.PageHistoryState PageHistoryState
 
@@ -11,17 +12,52 @@
 <Form ButtonText="Update User" user="@user" loading="@loading"
             OnValidSubmit="@UpdateUser" />
 
+<h3>Assign Roles</h3>
+<div>
+    @if (roles == null || userRoles == null)
+    {
+        <p><em>Loading roles...</em></p>
+    }
+    else
+    {
+        @foreach (var role in roles)
+        {
+            <div>
+                <input type="checkbox" @bind="role.IsSelected"  />
+                <label>@role.Name</label>
+            </div>
+        }
+    }
+</div>
+
+<div class="form-group">
+    <button class="btn btn-primary" @onclick="UpdateRoles">Save Roles</button>
+</div>
+
 @code {
     bool loading = false;
-    
+    User user = new User();
+
     [Parameter]
     public string Id { get; set; }
-
-    User user = new User();
     
+    private List<RoleViewModel> roles = new List<RoleViewModel>(); // Available roles
+    private List<UserRoleViewModel> userRoles = new List<UserRoleViewModel>(); // User's assigned roles (role IDs)
+
     protected async override Task OnParametersSetAsync()
     {
-       user = await UserService.GetUser(int.Parse(Id));
+        user = await UserService.GetUser(int.Parse(Id));
+        roles = await RoleService.GetAllRoles(); // Fetch all roles
+        userRoles = await UserService.GetUserRoles(int.Parse(Id)); // Fetch assigned roles for the user
+
+        // Mark roles as selected based on userRoles
+        foreach (var role in roles)
+        {
+            if (userRoles.Any(ur => ur.RoleId == role.RoleId))
+            {
+                role.IsSelected = true;
+            }
+        }
     }
 
     async Task UpdateUser()
@@ -31,12 +67,14 @@
         {
             await UserService.UpdateUser(user);
             AlertService.Success("User updated successfully", keepAfterRouteChange: true);
-            if (PageHistoryState.CanGoBack()){
+            if (PageHistoryState.CanGoBack())
+            {
                 navManager.NavigateTo(PageHistoryState.GetGoBackPage());
             }
-            else{
+            else
+            {
                 navManager.NavigateTo("/user/1");
-            } 
+            }
         }
         catch (Exception ex)
         {
@@ -45,4 +83,40 @@
             StateHasChanged();
         }
     }
+
+    // Toggle Role Selection
+    private async Task ToggleRole(RoleViewModel role)
+    {
+        if (role.IsSelected)
+        {
+            // Ensure role.Id is set properly
+            Console.WriteLine($"Assigning Role ID: {role.RoleId}");  // Check if this prints the correct value
+            await UserService.AssignRoleToUser(user.Id, role.RoleId);  // Passing role.Id here
+        }
+        else
+        {
+            await UserService.RemoveRoleFromUser(user.Id, role.RoleId); // Remove role
+        }
+    }
+
+    // Save Role Updates
+    private async Task UpdateRoles()
+    {
+        foreach (var role in roles)
+        {
+            if (role.IsSelected && !userRoles.Any(ur => ur.RoleId == role.RoleId))
+            {
+                // Assign new roles that were selected
+                Console.WriteLine($"Assigning Role ID: {role.RoleId}");  // Check if this prints the correct value
+                await UserService.AssignRoleToUser(user.Id, role.RoleId);
+            }
+            else if (!role.IsSelected && userRoles.Any(ur => ur.RoleId == role.RoleId))
+            {
+                // Remove roles that were deselected
+                await UserService.RemoveRoleFromUser(user.Id, role.RoleId);
+            }
+        }
+        AlertService.Success("Roles updated successfully");
+    }
 }
+
