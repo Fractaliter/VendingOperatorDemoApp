@@ -8,26 +8,28 @@
 <h1>Create Transaction</h1>
 <br/>
 
-<Form ButtonText="Create Transaction" Transaction="@Transaction" loading="@loading"
+<Form ButtonText="Create Transaction" Transaction="@transaction" loading="@loading"
       OnValidSubmit="@CreateTransaction" />
 
 @code {
     bool loading = false;
 
-    Transaction Transaction = new Transaction
+    Transaction transaction = new Transaction
         {
-            VendingMachineId = 0,
-            ProductId = 0,
-            UserId = 0,
+            VendingMachineId = null,  // Or -1 to represent an unselected state
+            ProductId = null,         // Or -1
+            UserId = null,               // Assuming 0 is not a valid user ID
             Timestamp = DateTime.Now,
             AmountPaid = 0
-    };
+        };
     async Task CreateTransaction()
     {
         loading = true;
         try
-        {
-            await TransactionService.AddTransaction(Transaction);
+        {  // Debug the transaction values before submitting
+            Console.WriteLine($"ProductId: {transaction.ProductId}, VendingMachineId: {transaction.VendingMachineId}, UserId: {transaction.UserId}, AmountPaid: {transaction.AmountPaid}");
+
+            await TransactionService.AddTransaction(transaction);
             AlertService.Success("Transaction added successfully", keepAfterRouteChange: true);
             if (PageHistoryState.CanGoBack()){
                 navManager.NavigateTo(PageHistoryState.GetGoBackPage());

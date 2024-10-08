@@ -105,6 +105,32 @@ namespace VendingOperator.Server.Models
                 }
                 appDbContext.SaveChanges();
             }
+            if (!appDbContext.Products.Any())
+            {
+                List<Product> products = new List<Product>
+                {
+                    new Product() { ProductName = "Lays",Price = 12,Description="Fromage",StockQuantity=2 },
+                    new Product() { ProductName = "3Bit",Price = 12,Description="Small",StockQuantity=2 }
+                };
+                foreach (Product p in products)
+                {
+                    appDbContext.Products.Add(p);
+                }
+                appDbContext.SaveChanges();
+            }
+            if (!appDbContext.VendingMachines.Any())
+            {
+                List<VendingMachine> vendingMachines = new List<VendingMachine>
+                {
+                    new VendingMachine() { VendingMachineName = "MaszynaCzipsy",Capacity = 12,VendingMachineStatus="Fromage",Location="Zory",UserID=appDbContext.Users.Where(x => x.Username == "admin").FirstOrDefault().Id },
+                    new VendingMachine() { VendingMachineName = "MaszynaBatony",Capacity = 12,VendingMachineStatus="Small",Location="WWa",UserID=appDbContext.Users.Where(x => x.Username == "admin").FirstOrDefault().Id }
+                };
+                foreach (VendingMachine p in vendingMachines)
+                {
+                    appDbContext.VendingMachines.Add(p);
+                }
+                appDbContext.SaveChanges();
+            }
         }
     }
 }

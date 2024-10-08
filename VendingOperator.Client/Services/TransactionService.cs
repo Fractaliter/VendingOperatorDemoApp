@@ -31,6 +31,8 @@ namespace VendingOperator.Client.Services
 
         public async Task AddTransaction([FromBody] Transaction Transaction)
         {
+            Console.WriteLine($"ProductId: {Transaction.ProductId}, VendingMachineId: {Transaction.VendingMachineId}, AmountPaid: {Transaction.AmountPaid} UserId: {Transaction.UserId}");
+
             await _httpService.Post($"api/transaction", Transaction);
         }
 

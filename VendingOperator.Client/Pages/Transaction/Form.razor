@@ -3,54 +3,55 @@
 @inject IVendingMachineService VendingMachineService
 @inject IProductService ProductService
 
-<EditForm Model="@Transaction" OnValidSubmit="@OnValidSubmit">
+<EditForm Model="@transaction" OnValidSubmit="@OnValidSubmit">
     <FluentValidator TValidator="TransactionValidator" />
-    <div class="form-group">
-        <label>AmountPaid :</label>
-        <div>
-            <InputNumber @bind-Value="@Transaction.AmountPaid" class="form-control col-sm-3" />
-            <ValidationMessage For="@(() => Transaction.AmountPaid)" />
-        </div>
-    </div>
-    
     <div class="form-group">
         <label>Machine :</label>
         <div>
-            <InputSelect @bind-Value="@Transaction.VendingMachineId" class="form-control col-sm-3">
+            <InputSelect @bind-Value="@transaction.VendingMachineId" class="form-control col-sm-3">
+                <option value="">-- Select a Vending Machine --</option> <!-- Placeholder option -->
                 @foreach (var machine in vmachines)
                 {
                     <option value="@machine.VendingMachineId">@machine.VendingMachineName</option>
                 }
-
             </InputSelect>
-            <ValidationMessage For="@(() => Transaction.VendingMachineId)" />
+            <ValidationMessage For="@(() => transaction.VendingMachineId)" />
         </div>
     </div>
+
+    <div class="form-group">
+        <label>AmountPaid :</label>
+        <div>
+            <InputNumber @bind-Value="@transaction.AmountPaid" class="form-control col-sm-3" />
+            <ValidationMessage For="@(() => transaction.AmountPaid)" />
+        </div>
+    </div>
+    
     <div class="form-group">
         <label>Operator :</label>
         <div>
-            <InputSelect @bind-Value="@Transaction.UserId" class="form-control col-sm-3">
+            <InputSelect @bind-Value="@transaction.UserId" class="form-control col-sm-3">
+                <option value="">-- Select an Operator --</option> <!-- Placeholder option -->
                 @foreach (var person in operators)
                 {
                     <option value="@person.Id">@person.FirstName @person.LastName</option>
                 }
-
             </InputSelect>
-            <ValidationMessage For="@(() => Transaction.UserId)" />
+            <ValidationMessage For="@(() => transaction.UserId)" />
         </div>
     </div>
 
     <div class="form-group">
         <label>Product :</label>
         <div>
-            <InputSelect @bind-Value="@Transaction.ProductId" class="form-control col-sm-3">
+            <InputSelect @bind-Value="@transaction.ProductId" class="form-control col-sm-3">
+                <option value="">-- Select a Product --</option> <!-- Placeholder option -->
                 @foreach (var product in products)
                 {
                     <option value="@product.ProductId">@product.ProductName</option>
                 }
-
             </InputSelect>
-            <ValidationMessage For="@(() => Transaction.ProductId)" />
+            <ValidationMessage For="@(() => transaction.ProductId)" />
         </div>
     </div>
 
@@ -77,7 +78,7 @@
     [Parameter]
     public string Page { get; set; } = "1";
     [Parameter]
-    public Transaction Transaction { get; set; }
+    public Transaction transaction { get; set; }
     [Parameter]
     public string ButtonText { get; set; } = "Save";
     [Parameter]
