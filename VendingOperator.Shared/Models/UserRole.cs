@@ -17,5 +17,8 @@ namespace VendingOperator.Shared.Models
 
         // Foreign key to Role
         public int RoleId { get; set; }
+
+        // Navigation property to Role
+        public Role Role { get; set; }
     }
 }

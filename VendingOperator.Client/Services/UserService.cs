@@ -2,6 +2,7 @@ using VendingOperator.Client.Shared;
 using VendingOperator.Shared.Data;
 using VendingOperator.Shared.Models;
 using Microsoft.AspNetCore.Components;
+using System.Net.Http;
 
 namespace VendingOperator.Client.Services
 {
@@ -73,6 +74,15 @@ namespace VendingOperator.Client.Services
                 User.Username = user.Username;
                 await _localStorageService.SetItem(_userKey, User);
             }
+        }
+        public async Task<List<UserRoleViewModel>> GetUserRoles(int userId)
+        {
+            return await _httpService.Get<List<UserRoleViewModel>>($"api/user/roles?userId={userId}");
+        }
+
+        public async Task<PagedResult<UserRoleViewModel>> GetUserWithRoles(string? name, string page)
+        {
+            return await _httpService.Get<PagedResult<UserRoleViewModel>>($"api/user/withroles" + "?page=" + page + "&name=" + name);
         }
     }
 }

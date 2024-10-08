@@ -10,11 +10,11 @@ namespace VendingOperator.Server.Controllers
     [ApiController]
     public class UserRolesController : ControllerBase
     {
-        private readonly UserRepository _userRepository;
-        private readonly RoleRepository _roleRepository;
-        private readonly UserRoleRepository _userRoleRepository;
+        private readonly IUserRepository _userRepository;
+        private readonly IRoleRepository _roleRepository;
+        private readonly IUserRoleRepository _userRoleRepository;
 
-        public UserRolesController(UserRepository userRepository, RoleRepository roleRepository, UserRoleRepository userRoleRepository)
+        public UserRolesController(IUserRepository userRepository, IRoleRepository roleRepository, IUserRoleRepository userRoleRepository)
         {
             _userRepository = userRepository;
             _roleRepository = roleRepository;
@@ -45,10 +45,20 @@ namespace VendingOperator.Server.Controllers
         }
 
         [HttpGet("user/roles")]
-        public IActionResult GetRolesForUser(int userId)
+        public async Task<IActionResult> GetRolesForUser(int userId)
         {
-            var roles = _userRoleRepository.GetRolesForUser(userId);
-            return Ok(roles);
+            var roles = await _userRoleRepository.GetRolesForUser(userId);
+
+            if (roles == null || !roles.Any())
+            {
+                return NotFound("No roles found for the specified user.");
+            }
+
+            return Ok(roles.Select(ur => new
+            {
+                ur.RoleId,
+                RoleName = ur.Role.Name
+            }));
         }
 
         [HttpGet("user/hasrole")]
@@ -56,6 +66,13 @@ namespace VendingOperator.Server.Controllers
         {
             var hasRole = _userRoleRepository.UserHasRole(userId, roleId);
             return Ok(hasRole);
+        }
+
+        [HttpGet("user/withroles")]
+        public IActionResult GetUsersWithRoles([FromQuery] string? name, int page)
+        {
+            var usersWithRoles = _userRoleRepository.GetUsersWithRoles(name, page);
+            return Ok(usersWithRoles);
         }
     }
 }

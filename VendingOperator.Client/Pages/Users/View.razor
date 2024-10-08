@@ -1,10 +1,11 @@
 @page "/user/viewuser/{id}"
+@attribute [Authorize]
 @inject IUserService UserService
 @inject NavigationManager navManager
 @inject VendingOperator.Client.Shared.PageHistoryState PageHistoryState
 
 <h1>View User</h1>
-<br/>
+<br />
 
 <table class="table col-md-6">
     <tbody>
@@ -24,14 +25,27 @@
             <th scope="row">User Name</th>
             <td>@user.Username</td>
         </tr>
+        <tr>
+            <th scope="row">Roles</th>
+            <td>
+                <ul>
+                    @foreach (var role in userRoles)
+                    {
+                        <li>@role.RoleName</li>
+                    }
+                </ul>
+            </td> 
+        </tr>
     </tbody>
 </table>
 
 <div class="form-group">
-    @if (PageHistoryState.CanGoBack()){
+    @if (PageHistoryState.CanGoBack())
+    {
         <NavLink href="@PageHistoryState.GetGoBackPage()" class="btn btn-link">Back</NavLink>
     }
-    else{
+    else
+    {
         <NavLink href="/user/1" class="btn btn-link">Back</NavLink>
     }
 </div>
@@ -41,9 +55,11 @@
     public string Id { get; set; }
 
     User user = new User();
-    
+    List<UserRoleViewModel> userRoles = new List<UserRoleViewModel>();
+
     protected async override Task OnParametersSetAsync()
     {
-       user = await UserService.GetUser(int.Parse(Id));
+        user = await UserService.GetUser(int.Parse(Id));
+        userRoles = await UserService.GetUserRoles(user.Id); // Fetch roles for the user
     }
 }

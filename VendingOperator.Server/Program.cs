@@ -19,6 +19,8 @@ builder.Services.AddScoped<ITransactionRepository, TransactionRepository>();
 builder.Services.AddScoped<IPersonRepository, PersonRepository>();
 builder.Services.AddScoped<IUploadRepository, UploadRepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IUserRoleRepository, UserRoleRepository>();
+builder.Services.AddScoped<IRoleRepository, RoleRepository>();
 
 builder.Services.AddScoped<IJwtUtils, JwtUtils>();
 

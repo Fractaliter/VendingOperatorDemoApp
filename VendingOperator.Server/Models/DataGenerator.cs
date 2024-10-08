@@ -1,5 +1,6 @@
 using VendingOperator.Shared.Models;
 using Bogus;
+using System.Data;
 
 namespace VendingOperator.Server.Models
 {
@@ -78,6 +79,29 @@ namespace VendingOperator.Server.Models
                     u.PasswordHash = BCrypt.Net.BCrypt.HashPassword(u.Password);
                     u.Password = "**********";
                     appDbContext.Users.Add(u);
+                }
+                appDbContext.SaveChanges();
+            }
+            if (!appDbContext.Roles.Any())
+            {
+                List<Role> roles = new List<Role>
+                {
+                    new Role() { Name = "Admin" },
+                    new Role() { Name = "Operator" }
+                }; 
+                foreach (Role r in roles)
+                {
+                    appDbContext.Roles.Add(r);
+                }
+                appDbContext.SaveChanges();
+                foreach (Role r in appDbContext.Roles)
+                {
+                    UserRole userRole = new UserRole()
+                    {
+                        RoleId = r.RoleId,  // This will now have a valid RoleId
+                        UserId = appDbContext.Users.Where(x => x.Username == "admin").FirstOrDefault().Id
+                    };
+                    appDbContext.UserRoles.Add(userRole);
                 }
                 appDbContext.SaveChanges();
             }
