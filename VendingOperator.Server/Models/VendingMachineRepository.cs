@@ -38,6 +38,7 @@ namespace VendingOperator.Server.Models
         public async Task<VendingMachine?> GetVendingMachine(int vendingMachineId)
         {
             var result = await _appDbContext.VendingMachines
+                .Include(vm => vm.User) // Eagerly load the related User entity
                 .FirstOrDefaultAsync(p => p.VendingMachineId == vendingMachineId);
             if (result != null)
             {
@@ -56,12 +57,14 @@ namespace VendingOperator.Server.Models
             if (vendingMachineName != null)
             {
                 return _appDbContext.VendingMachines
+                    .Include(vm => vm.User) // Eagerly load the related User entity
                     .Where(p => p.VendingMachineName.Contains(vendingMachineName, StringComparison.CurrentCultureIgnoreCase))
                     .GetPaged(page, pageSize);
             }
             else
             {
                 return _appDbContext.VendingMachines
+                    .Include(vm => vm.User) // Eagerly load the related User entity
                     .GetPaged(page, pageSize);
             }
         }

@@ -38,6 +38,9 @@ namespace VendingOperator.Server.Models
         public async Task<Transaction?> GetTransaction(int TransactionId)
         {
             var result = await _appDbContext.Transactions
+                .Include(t => t.Product)
+                .Include(t => t.VendingMachine)
+                .Include(t => t.User)
                 .FirstOrDefaultAsync(p => p.TransactionId == TransactionId);
             if (result != null)
             {
@@ -56,11 +59,17 @@ namespace VendingOperator.Server.Models
             if (TransactionName != null)
             {
                 return _appDbContext.Transactions
+                .Include(t => t.Product)
+                .Include(t => t.VendingMachine)
+                .Include(t => t.User)
                     .GetPaged(page, pageSize);
             }
             else
             {
                 return _appDbContext.Transactions
+                .Include(t => t.Product)
+                .Include(t => t.VendingMachine)
+                .Include(t => t.User)
                     .GetPaged(page, pageSize);
             }
         }

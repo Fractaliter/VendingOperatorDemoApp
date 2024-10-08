@@ -40,9 +40,9 @@ else
             <tr>
                 <th style="width:10%">TransactionId</th>
                 <th style="width:10%">AmountPaid</th>
-                <th style="width:20%">VendingMachineId</th>
-                <th style="width:20%">ProductId</th>
-                <th style="width:20%">UserId</th>
+                <th style="width:20%">VendingMachine</th>
+                <th style="width:20%">Product</th>
+                <th style="width:20%">User</th>
                 <th style="width:20%">Timestamp</th>
             </tr>
         </thead>
@@ -52,9 +52,9 @@ else
                 <tr>
                     <td>@Transaction.TransactionId</td>
                     <td>@Transaction.AmountPaid</td>
-                    <td>@Transaction.VendingMachineId</td>
-                    <td>@Transaction.ProductId</td>
-                    <td>@Transaction.UserId</td>
+                    <td>@Transaction.VendingMachine.VendingMachineName</td>
+                    <td>@Transaction.Product.ProductName</td>
+                    <td>@Transaction.User.Username</td>
                     <td>@Transaction.Timestamp</td>
                     <td style="white-space: nowrap">
                         <NavLink href="@($"/transaction/viewtransaction/{Transaction.TransactionId}")" class="oi oi-eye text-primary mr-3 nounderline"></NavLink>

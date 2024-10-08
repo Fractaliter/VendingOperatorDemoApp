@@ -39,8 +39,9 @@ else
         <thead>
             <tr>
                 <th style="width:40%">Vending Machine Name</th>
-                <th style="width:10%">Vending Machine Status</th>
-                <th style="width:40%">Location</th>
+                <th style="width:20%">Vending Machine Status</th>
+                <th style="width:20%">Location</th>
+                <th style="width:20%">Operator</th>
                 <th style="width:10%">Capacity</th>
             </tr>
         </thead>
@@ -51,6 +52,7 @@ else
                     <td>@vendingMachine.VendingMachineName</td>
                     <td>@vendingMachine.VendingMachineStatus</td>
                     <td>@vendingMachine.Location</td>
+                    <td>@vendingMachine.User?.Username</td> <!-- Display Username from the User navigation property -->
                     <td>@vendingMachine.Capacity</td>
                     <td style="white-space: nowrap">
                         <NavLink href="@($"/vendingmachine/viewvendingmachine/{vendingMachine.VendingMachineId}")" class="oi oi-eye text-primary mr-3 nounderline"></NavLink>
